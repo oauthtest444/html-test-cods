@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+
+  <!-- CSP -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'">
+
+  <title>CSP DOM XSS Test</title>
+</head>
+<body>
+
+<h2>DOM XSS CSP Test</h2>
+
+<input id="search" placeholder="search">
+<button id="btn">Search</button>
+
+<script src="xss.js"></script>
+
+</body>
+</html>
