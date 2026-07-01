@@ -2,11 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vulnerable Target Page</title>
+    <title>DOM XSS Demonstration (Educational)</title>
 </head>
 <body>
-    <h2>Processing Authorization...</h2>
-    <script src="myscripts.js"></script>
+
+    <h1>Welcome to the Dashboard</h1>
+    <p>Redirecting you based on your reference parameter...</p>
+
+    <script>
+        // 1. THE SOURCE: Extracting the 'q' parameter directly from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const targetUrl = urlParams.get('q');
+
+        // Check if the 'q' parameter exists
+        if (targetUrl) {
+            // 2. THE SINK: Unsafely assigning the input directly to location.href
+            // This causes the browser to immediately navigate or execute code.
+            window.location.href = targetUrl;
+        }
+    </script>
 
 </body>
 </html>
