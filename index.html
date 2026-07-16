@@ -20,12 +20,9 @@
 
         // If opened via window.open, window.opener exists.
         // Using "*" allows ANY site that opened this tab to read it.
-        if (window.opener) {
-            window.opener.postMessage(payload, "*");
-            console.log("Payload sent to opener via wildcard!");
-        } else {
-            console.log("No opener detected. Open this page via the attacker link.");
-        }
+        if (window.parent !== window) {
+    window.parent.postMessage(payload, "*");
+}
     </script>
 </body>
 </html>
