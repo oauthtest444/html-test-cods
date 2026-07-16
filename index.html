@@ -2,25 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DOM XSS Demonstration (Educational)</title>
+    <title>Victim Page</title>
+    <!-- Your strict CSP that blocks iframing -->
+    <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self'">
 </head>
 <body>
-
-    <h1>Welcome to the Dashboard</h1>
-    <p>Redirecting you based on your reference parameter...</p>
+    <h1>Victim Page Loaded</h1>
+    <p>Sending sensitive data to whoever opened me...</p>
 
     <script>
-        // 1. THE SOURCE: Extracting the 'q' parameter directly from the URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const targetUrl = urlParams.get('q');
+        // Simulate your original logic payload
+        var payload = {
+            event: "volc_app_init",
+            appname: "MySecureApp",
+            userinfo: { username: "admin_user", token: "secret_session_token_123" }
+        };
 
-        // Check if the 'q' parameter exists
-        if (targetUrl) {
-            // 2. THE SINK: Unsafely assigning the input directly to location.href
-            // This causes the browser to immediately navigate or execute code.
-            window.location.href = targetUrl;
+        // If opened via window.open, window.opener exists.
+        // Using "*" allows ANY site that opened this tab to read it.
+        if (window.opener) {
+            window.opener.postMessage(payload, "*");
+            console.log("Payload sent to opener via wildcard!");
+        } else {
+            console.log("No opener detected. Open this page via the attacker link.");
         }
     </script>
-
 </body>
 </html>
